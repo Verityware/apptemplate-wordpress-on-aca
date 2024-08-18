@@ -31,8 +31,7 @@ resource containerEnvironment 'Microsoft.App/managedEnvironments@2022-10-01' = {
       }
     }
     vnetConfiguration: {
-      infrastructureSubnetId: infraSnetId
-      internal: true
+      internal: false
     }
     zoneRedundant: false
   }
