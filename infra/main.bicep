@@ -31,10 +31,6 @@ param location string
 @description('Id of the user or app to assign application roles')
 param principalId string = ''
 param environmentName string
-@description('Whether to use a custom SSL certificate or not. If set to true, the certificate must be provided in the path cert/certificate.pfx.')
-param useCertificate bool = false
-@description('Whether to deploy the jump host or not')
-param deployJumpHost bool = true
 param tags object = { 'azd-env-name': environmentName }
 @description('The image to use for the wordpress container. Default is kpantos/wordpress-alpine-php:latest')
 param wordpressImage string = 'kpantos/wordpress-alpine-php:latest'
@@ -46,11 +42,6 @@ param fqdn string
 param applicationName string
 @secure()
 param mariaDBPassword string
-@description('The username of the jump host admin user')
-param adminUsername string
-@secure()
-@description('The password of the jump host admin user')
-param adminPassword string
 
 @description('The redis cache deployment option. Valid values are: managed, container, local.')
 @allowed([
@@ -91,10 +82,6 @@ module main 'resources.bicep' = {
     applicationName: applicationName
     mariaDBPassword: mariaDBPassword
     wordpressFqdn: fqdn
-    useCertificate: useCertificate
-    deployJumpHost: deployJumpHost
-    adminUsername: adminUsername
-    adminPassword: adminPassword
     principalId: principalId
     redisDeploymentOption: redisDeploymentOption
     wordpressImage: wordpressImage
@@ -125,7 +112,6 @@ output AZURE_ENV_NAME string = environmentName
 output AZURE_LOCATION string = location
 output AZURE_SUBSCRIPTION_ID string = subscription().subscriptionId
 
-output APP_ADMIN_USERNAME string = adminUsername
 output APP_APPLICATION_NAME string = applicationName
 output APP_FQDN string = fqdn
 output APP_REDIS_DEPLOYMENT_OPTIONS string = redisDeploymentOption
